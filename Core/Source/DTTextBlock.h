@@ -24,5 +24,16 @@
  */
 @property (nonatomic, strong) DTColor *backgroundColor;
 
+#pragma mark - add by fantasy 用于处理css borderLeft属性
+/**
+ For blockquote
+ */
+@property (nonatomic, assign) CGFloat borderLeftWidth;
+
+
+/**
+ For blockquote
+ */
+@property (nonatomic, strong) DTColor *borderLeftColor;
 
 @end

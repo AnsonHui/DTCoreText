@@ -36,6 +36,10 @@
 #import "UIFont+DTCoreText.h"
 #endif
 
+#pragma mark - add by fantasy 用于记录上一次的标签以及style信息
+static NSDictionary *_sLastStyles;
+static NSString *_sLastName;
+
 @interface DTHTMLElement ()
 
 @property (nonatomic, strong) NSString *linkGUID;
@@ -1402,7 +1406,21 @@ NSDictionary *_classesForNames = nil;
 		{
 			// need a block
 			DTTextBlock *newBlock = [[DTTextBlock alloc] init];
-			
+
+#pragma mark - add by fantasy 添加border-left处理
+			if ([_sLastName isEqualToString:@"blockquote"]) { // 上一次是blockquote
+				NSString *borderLeftWidth = [_sLastStyles objectForKey:@"border-left-width"];
+				if (borderLeftWidth.length > 0 && [borderLeftWidth containsString:@"px"]) {
+					NSString *value = [borderLeftWidth stringByReplacingOccurrencesOfString:@"px" withString:@""];
+					newBlock.borderLeftWidth = [value floatValue];
+					// 颜色转换
+					NSString *bgColor = [_sLastStyles objectForKey:@"border-left-color"];
+					newBlock.borderLeftColor = DTColorCreateWithHTMLName(bgColor);
+				} else {
+					newBlock.borderLeftWidth = 0;
+				}
+			}
+
 			newBlock.padding = _padding;
 			
 			// transfer background color to block
@@ -1438,6 +1456,10 @@ NSDictionary *_classesForNames = nil;
     {
         _fontDescriptor.fontName = [styles objectForKey:@"-coretext-fontname"];
     }
+
+#pragma mark - add by fantasy 添加border-left处理
+	_sLastName = self.name;
+	_sLastStyles = _styles;
 }
 
 - (DTCSSListStyle *)listStyle

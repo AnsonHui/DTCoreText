@@ -11,6 +11,14 @@
 		<string>READ ME</string>
 	</dict>
 	<dict>
+		<key>Title</key>
+		<string>HTML + CSS </string>
+		<key>File</key>
+		<string>html+css.html</string>
+		<key>Description</key>
+		<string>HTML + CSS to NSAttributedString</string>
+	</dict>
+	<dict>
 		<key>Description</key>
 		<string>This demonstrates the features supported by the iOS 6 attributes.</string>
 		<key>File</key>
@@ -172,15 +180,15 @@
 		<key>Title</key>
 		<string>Never mind this file ...</string>
 	</dict>
-    <dict>
-        <key>Description</key>
-        <string>AutoLayout test</string>
-        <key>Title</key>
-        <string>AutoLayout test</string>
-        <key>File</key>
-        <string>FontSizes.html</string>
-        <key>AutoLayoutTest</key>
-        <true/>
-    </dict>
+	<dict>
+		<key>Description</key>
+		<string>AutoLayout test</string>
+		<key>Title</key>
+		<string>AutoLayout test</string>
+		<key>File</key>
+		<string>FontSizes.html</string>
+		<key>AutoLayoutTest</key>
+		<true/>
+	</dict>
 </array>
 </plist>

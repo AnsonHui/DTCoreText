@@ -65,9 +65,6 @@
 // TARGET_OS_IPHONE is both tvOS and iOS
 #if TARGET_OS_IPHONE
 
-#import "DTLazyImageView.h"
-#import "DTLinkButton.h"
-
 #import "NSAttributedStringRunDelegates.h"
 
 #import "DTAttributedLabel.h"

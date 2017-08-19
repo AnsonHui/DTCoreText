@@ -13,6 +13,7 @@
 #import "DTTiledLayerWithoutFade.h"
 #import "DTWebVideoView.h"
 
+#import "DTLinkButton.h"
 
 @interface DemoTextViewController ()
 - (void)_segmentedControlChanged:(id)sender;

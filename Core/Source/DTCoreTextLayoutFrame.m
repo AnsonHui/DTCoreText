@@ -1120,15 +1120,29 @@ static BOOL _DTCoreTextLayoutFramesShouldDrawDebugFrames = NO;
 	{
 		_textBlockHandler(textBlock, frame, context, &shouldDrawStandardBackground);
 	}
-	
+
 	// draw standard background if necessary
 	if (shouldDrawStandardBackground)
 	{
-		if (textBlock.backgroundColor)
-		{
-			CGColorRef color = [textBlock.backgroundColor CGColor];
-			CGContextSetFillColorWithColor(context, color);
-			CGContextFillRect(context, frame);
+		if (textBlock.borderLeftColor && textBlock.borderLeftWidth > 0) {
+
+#pragma mark - add by fantasy 画引用的线，原来是frame
+			CGContextSetFillColorWithColor(context, [textBlock.borderLeftColor CGColor]);
+			CGContextFillRect(context, CGRectMake(frame.origin.x + textBlock.padding.left,
+												  frame.origin.y + textBlock.padding.top,
+												  textBlock.borderLeftWidth, frame.size.height));
+
+		} else {
+
+			if (textBlock.backgroundColor)
+			{
+
+				UIColor *color = textBlock.backgroundColor;
+
+				CGContextSetFillColorWithColor(context, [color CGColor]);
+				CGContextFillRect(context, frame);
+				
+			}
 		}
 	}
 	

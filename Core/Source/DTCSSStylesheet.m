@@ -434,6 +434,31 @@ extern unsigned int default_css_len;
 			[scanner scanUpToCharactersFromSet:tokenDelimiters intoString:NULL];
 		}
 	}
+
+#pragma mark - add by fantasy 转换border-left-color
+
+	shortHand = [styles objectForKey:@"border-left-color"];
+
+	if (shortHand) {
+
+		[styles removeObjectForKey:@"border-left-color"];
+
+		NSCharacterSet *tokenDelimiters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+		NSString *trimmedString = [shortHand stringByTrimmingCharactersInSet:tokenDelimiters];
+		NSScanner *scanner = [NSScanner scannerWithString:trimmedString];
+
+		while (![scanner isAtEnd])
+		{
+			NSString *colorName;
+			if ([scanner scanHTMLColor:NULL HTMLName:&colorName])
+			{
+				[styles setObject:colorName forKey:@"border-left-color"];
+				break;
+			}
+			[scanner scanUpToCharactersFromSet:tokenDelimiters intoString:NULL];
+		}
+	}
+
 }
 
 - (void)_addStyleRule:(NSString *)rule withSelector:(NSString*)selectors

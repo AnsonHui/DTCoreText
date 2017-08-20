@@ -390,7 +390,7 @@
 	
 	void (^blockquoteBlock)(void) = ^
 	{
-		_currentTag.paragraphStyle.headIndent += (CGFloat)25.0 * _textScale;
+		_currentTag.paragraphStyle.headIndent += (CGFloat)10.0 * _textScale;
 		_currentTag.paragraphStyle.firstLineHeadIndent = _currentTag.paragraphStyle.headIndent;
 		_currentTag.paragraphStyle.paragraphSpacing = _defaultFontDescriptor.pointSize;
 #pragma mark - add by fantasy 用于触发绘制背景色，实际并不会进行绘制

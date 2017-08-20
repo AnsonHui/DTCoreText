@@ -8,6 +8,7 @@
 
 #import "DemoHTMLCSSTextViewController.h"
 #import "DTAttributedTextView.h"
+#import "DTLinkButton.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #pragma mark - define
@@ -75,6 +76,50 @@
 	return nil;
 }
 
+- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView
+			  viewForAttributedString:(NSAttributedString *)string frame:(CGRect)frame {
+
+	NSDictionary *attributes = [string attributesAtIndex:0 effectiveRange:NULL];
+
+	NSURL *URL = [attributes objectForKey:DTLinkAttribute];
+	NSString *identifier = [attributes objectForKey:DTGUIDAttribute];
+
+	DTLinkButton *button = [[DTLinkButton alloc] initWithFrame:frame];
+	[button addTarget:self action:@selector(openURL) forControlEvents:UIControlEventTouchUpInside];
+
+	UIImage *normalImage = [attributedTextContentView contentImageWithBounds:frame options:DTCoreTextLayoutFrameDrawingDefault];
+	[button setImage:normalImage forState:UIControlStateNormal];
+	UIImage *highlightImage = [attributedTextContentView contentImageWithBounds:frame options:DTCoreTextLayoutFrameDrawingDrawLinksHighlighted];
+	[button setImage:highlightImage forState:UIControlStateHighlighted];
+
+	return button;
+}
+
+- (void)openURL {
+
+	NSLog(@"open url");
+}
+
+//- (BOOL)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView shouldDrawBackgroundForTextBlock:(DTTextBlock *)textBlock frame:(CGRect)frame context:(CGContextRef)context forLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame
+//{
+//	UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(frame, 1, 1) cornerRadius:10];
+//
+//	CGColorRef color = [textBlock.backgroundColor CGColor];
+//	if (color)
+//	{
+//		CGContextSetFillColorWithColor(context, color);
+//		CGContextAddPath(context, [roundedRect CGPath]);
+//		CGContextFillPath(context);
+//		
+//		CGContextAddPath(context, [roundedRect CGPath]);
+//		CGContextSetRGBStrokeColor(context, 0, 0, 0, 1);
+//		CGContextStrokePath(context);
+//		return NO;
+//	}
+//	
+//	return YES; // draw standard background
+//}
+
 #pragma mark -
 #pragma mark - event response
 
@@ -94,7 +139,7 @@
 	NSData *data = [html dataUsingEncoding:NSUTF8StringEncoding];
 
 	// Create attributed string from HTML
-	CGSize maxImageSize = CGSizeMake(self.view.bounds.size.width - 10.0, self.view.bounds.size.height - 10.0);
+	CGSize maxImageSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
 
 	// example for setting a willFlushCallback, that gets called before elements are written to the generated attributed string
 	void (^callBackBlock)(DTHTMLElement *element) = ^(DTHTMLElement *element) {
@@ -104,17 +149,31 @@
 		for (DTHTMLElement *oneChildElement in element.childNodes)
 		{
 			// if an element is larger than twice the font size put it in it's own block
-			if (oneChildElement.displayStyle == DTHTMLElementDisplayStyleInline && oneChildElement.textAttachment.displaySize.height > 2.0 * oneChildElement.fontDescriptor.pointSize)
+//			if (oneChildElement.displayStyle == DTHTMLElementDisplayStyleInline && oneChildElement.textAttachment.displaySize.height > 2.0 * oneChildElement.fontDescriptor.pointSize)
 			{
 				oneChildElement.displayStyle = DTHTMLElementDisplayStyleBlock;
 				oneChildElement.paragraphStyle.minimumLineHeight = element.textAttachment.displaySize.height;
 				oneChildElement.paragraphStyle.maximumLineHeight = element.textAttachment.displaySize.height;
+				oneChildElement.paragraphStyle.paragraphSpacingBefore = 0;
+				oneChildElement.paragraphStyle.paragraphSpacing = 0;
+				oneChildElement.underlineStyle = kCTUnderlineStyleNone;
 			}
 		}
 	};
 
-	NSMutableDictionary *options = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:1.0], NSTextSizeMultiplierDocumentOption, [NSValue valueWithCGSize:maxImageSize], DTMaxImageSize,
-									@"Times New Roman", DTDefaultFontFamily,  @"purple", DTDefaultLinkColor, @"red", DTDefaultLinkHighlightColor, callBackBlock, DTWillFlushBlockCallBack, nil];
+	NSMutableDictionary *options = @{
+									 DTIgnoreInlineStylesOption: @NO,
+									 DTDefaultLinkDecoration: @NO,
+									 DTDefaultLinkColor: @"#888888",
+									 DTLinkHighlightColorAttribute: @"#666666",
+									 DTDefaultFontSize: @15,
+									 DTDefaultFontFamily: @"Times New Roman",
+									 DTDefaultFontName: @"HelveticaNeue-Light",
+									 DTAttachmentParagraphSpacingAttribute: @(15),
+									 DTDocumentPreserveTrailingSpaces: @(15),
+									 DTMaxImageSize: [NSValue valueWithCGSize:maxImageSize],
+									 DTWillFlushBlockCallBack: callBackBlock
+									 }.mutableCopy;
 
 	[options setObject:[NSURL fileURLWithPath:readmePath] forKey:NSBaseURLDocumentOption];
 
@@ -139,8 +198,8 @@
 	_textView = [[DTAttributedTextView alloc] initWithFrame:self.view.bounds];
 
 	// we draw images and links via subviews provided by delegate methods
-	_textView.shouldDrawImages = NO;
-	_textView.shouldDrawLinks = NO;
+	_textView.shouldDrawImages = YES;
+	_textView.shouldDrawLinks = YES;
 	_textView.textDelegate = self; // delegate for custom sub views
 
 	[self.view addSubview:_textView];

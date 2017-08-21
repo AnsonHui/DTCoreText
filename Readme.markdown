@@ -42,7 +42,7 @@ pod 'DTCoreText', :git => 'https://github.com/AnsonHui/DTCoreText.git'
 Snapshot
 -------------
 
-![](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/1.png =375x667)
+![image](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/1.png)
 ![](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/2.png =375x667)
 ![](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/3.png =375x667)
 ![](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/4.png =375x667)

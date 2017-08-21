@@ -92,7 +92,7 @@ a
 	color:#0000EE; 
 }
 
-a:active {color:#FF0000;}  /* link while finger down */
+a:active {color:#38ADFF;}  /* link while finger down */
 
 center
 {
@@ -191,22 +191,6 @@ h6
 	font-weight:bold;
 }
 
-div {
-	display: block;
-}
-
-link {
-	display: none;
-}
-
-meta {
-	display: none;
-}
-
-script {
-	display: none;
-}
-
 hr {
 	display: block;
 	-webkit-margin-start: auto;
@@ -224,8 +208,7 @@ table {
 blockquote {
 	border-left-style: solid;
 	border-left-width: 4px;
-	border-left-color: #FF0000;
-	color: #555555;
+	border-left-color: #E4E4E4;
 }
 
 code, tt {

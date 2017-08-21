@@ -126,26 +126,6 @@
 	[[UIApplication sharedApplication] openURL:button.URL];
 }
 
-//- (BOOL)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView shouldDrawBackgroundForTextBlock:(DTTextBlock *)textBlock frame:(CGRect)frame context:(CGContextRef)context forLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame
-//{
-//	UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(frame, 1, 1) cornerRadius:10];
-//
-//	CGColorRef color = [textBlock.backgroundColor CGColor];
-//	if (color)
-//	{
-//		CGContextSetFillColorWithColor(context, color);
-//		CGContextAddPath(context, [roundedRect CGPath]);
-//		CGContextFillPath(context);
-//		
-//		CGContextAddPath(context, [roundedRect CGPath]);
-//		CGContextSetRGBStrokeColor(context, 0, 0, 0, 1);
-//		CGContextStrokePath(context);
-//		return NO;
-//	}
-//	
-//	return YES; // draw standard background
-//}
-
 #pragma mark -
 #pragma mark - event response
 
@@ -157,44 +137,33 @@
 #pragma mark -
 #pragma mark - private method
 
-- (NSAttributedString *)_attributedStringForSnippet
-{
-	// Load HTML data
+- (NSAttributedString *)_attributedStringForSnippet {
+
 	NSString *readmePath = [[NSBundle mainBundle] pathForResource:_fileName ofType:nil];
 	NSString *html = [NSString stringWithContentsOfFile:readmePath encoding:NSUTF8StringEncoding error:NULL];
 	NSData *data = [html dataUsingEncoding:NSUTF8StringEncoding];
 
-	// Create attributed string from HTML
 	CGSize maxImageSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
 
-	// example for setting a willFlushCallback, that gets called before elements are written to the generated attributed string
 	void (^callBackBlock)(DTHTMLElement *element) = ^(DTHTMLElement *element) {
 
-		// the block is being called for an entire paragraph, so we check the individual elements
+		for (DTHTMLElement *oneChildElement in element.childNodes) {
 
-		for (DTHTMLElement *oneChildElement in element.childNodes)
-		{
-			// if an element is larger than twice the font size put it in it's own block
-//			if (oneChildElement.displayStyle == DTHTMLElementDisplayStyleInline && oneChildElement.textAttachment.displaySize.height > 2.0 * oneChildElement.fontDescriptor.pointSize)
-			{
-				oneChildElement.displayStyle = DTHTMLElementDisplayStyleBlock;
-				oneChildElement.paragraphStyle.minimumLineHeight = element.textAttachment.displaySize.height;
-				oneChildElement.paragraphStyle.maximumLineHeight = element.textAttachment.displaySize.height;
-				oneChildElement.paragraphStyle.paragraphSpacingBefore = 0;
-				oneChildElement.paragraphStyle.paragraphSpacing = 0;
-				oneChildElement.underlineStyle = kCTUnderlineStyleNone;
-			}
+			oneChildElement.displayStyle = DTHTMLElementDisplayStyleBlock;
+			oneChildElement.paragraphStyle.minimumLineHeight = element.textAttachment.displaySize.height;
+			oneChildElement.paragraphStyle.maximumLineHeight = element.textAttachment.displaySize.height;
+			oneChildElement.paragraphStyle.paragraphSpacingBefore = 0;
+			oneChildElement.paragraphStyle.paragraphSpacing = 0;
+			oneChildElement.underlineStyle = kCTUnderlineStyleNone;
 		}
 	};
 
 	NSMutableDictionary *options = @{
 									 DTIgnoreInlineStylesOption: @NO,
 									 DTDefaultLinkDecoration: @NO,
-									 DTDefaultLinkColor: @"#00FF00",
-									 DTLinkHighlightColorAttribute: @"#0000FF",
+									 DTDefaultLinkColor: @"#38adff",
+									 DTLinkHighlightColorAttribute: @"#38adff",
 									 DTDefaultFontSize: @15,
-									 DTDefaultFontFamily: @"Times New Roman",
-									 DTDefaultFontName: @"HelveticaNeue-Light",
 									 DTAttachmentParagraphSpacingAttribute: @(15),
 									 DTDocumentPreserveTrailingSpaces: @(15),
 									 DTMaxImageSize: [NSValue valueWithCGSize:maxImageSize],

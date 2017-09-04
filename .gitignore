@@ -5,3 +5,6 @@ build
 project.xcworkspace
 xcuserdata
 .svn
+Pods/
+Externals/
+Podfile.lock

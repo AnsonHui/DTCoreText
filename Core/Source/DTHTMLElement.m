@@ -36,6 +36,10 @@
 #import "UIFont+DTCoreText.h"
 #endif
 
+#pragma mark - add by fantasy 用于记录上一次的标签以及style信息
+static NSDictionary *_sLastStyles;
+static NSString *_sLastName;
+
 @interface DTHTMLElement ()
 
 @property (nonatomic, strong) NSString *linkGUID;
@@ -386,7 +390,10 @@ NSDictionary *_classesForNames = nil;
 	
 	[_attributes enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
 		
+		// Ignore attributes on global ignore list
 		if ([attributesToIgnore containsObject:key]) return;
+		// Ignore Apple-converted-space helper CSS class
+		if ([@"class" isEqualToString:key] && [@"Apple-converted-space" isEqualToString:value]) return;
 
 		if (_CSSClassNamesToIgnoreForCustomAttributes && [key isEqualToString:@"class"])
 		{
@@ -1328,6 +1335,12 @@ NSDictionary *_classesForNames = nil;
 		_backgroundCornerRadius = 0.0f;
 	}
 	
+	NSString *textIndentStr = [styles objectForKey:@"text-indent"];
+	if (textIndentStr && [textIndentStr isCSSLengthValue])
+	{
+		_pTextIndent = [textIndentStr pixelSizeOfCSSMeasureRelativeToCurrentTextSize:_currentTextSize textScale:_textScale];
+	}
+	
 	BOOL needsTextBlock = (_backgroundColor!=nil || _backgroundStrokeColor!=nil || _backgroundCornerRadius > 0 || _backgroundStrokeWidth > 0);
 	
 	BOOL hasMargins = NO;
@@ -1393,7 +1406,27 @@ NSDictionary *_classesForNames = nil;
 		{
 			// need a block
 			DTTextBlock *newBlock = [[DTTextBlock alloc] init];
-			
+
+#pragma mark - add by fantasy 添加border-left处理
+			if ([_sLastName isEqualToString:@"blockquote"]) { // 上一次是blockquote
+				NSString *borderLeftWidth = [_sLastStyles objectForKey:@"border-left-width"];
+				if (borderLeftWidth.length > 0 && [borderLeftWidth containsString:@"px"]) {
+					NSString *value = [borderLeftWidth stringByReplacingOccurrencesOfString:@"px" withString:@""];
+					newBlock.borderLeftWidth = [value floatValue];
+					// 颜色转换
+					NSString *bgColor = [_sLastStyles objectForKey:@"border-left-color"];
+					newBlock.borderLeftColor = DTColorCreateWithHTMLName(bgColor);
+				} else {
+					newBlock.borderLeftWidth = 0;
+				}
+
+				// 解释上一次的padding
+				[self _parseEdgeInsetsFromStyleDictionary:_sLastStyles
+								  forAttributesWithPrefix:@"padding"
+										 writingDirection:self.paragraphStyle.baseWritingDirection
+										   intoEdgeInsets:&_padding];
+			}
+
 			newBlock.padding = _padding;
 			
 			// transfer background color to block
@@ -1429,6 +1462,10 @@ NSDictionary *_classesForNames = nil;
     {
         _fontDescriptor.fontName = [styles objectForKey:@"-coretext-fontname"];
     }
+
+#pragma mark - add by fantasy 添加border-left处理
+	_sLastName = self.name;
+	_sLastStyles = _styles;
 }
 
 - (DTCSSListStyle *)listStyle
@@ -1727,6 +1764,7 @@ NSDictionary *_classesForNames = nil;
 @synthesize backgroundStrokeWidth = _backgroundStrokeWidth;
 @synthesize backgroundCornerRadius = _backgroundCornerRadius;
 @synthesize letterSpacing = _letterSpacing;
+@synthesize pTextIndent = _pTextIndent;
 
 @end
 

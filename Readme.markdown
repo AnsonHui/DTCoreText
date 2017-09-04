@@ -31,3 +31,18 @@ It is open source and covered by a standard 2-clause BSD license. That means you
 You can purchase a [Non-Attribution-License](https://www.cocoanetics.com/order/?product_id=DTCoreText) for 75 Euros for not having to include the LICENSE text.
 
 We also accept sponsorship for specific enhancements which you might need. Please [contact us via email](mailto:oliver@cocoanetics.com?subject=DTCoreText) for inquiries.
+
+Usage
+-------------
+
+CocoaPods
+
+pod 'DTCoreText', :git => 'https://github.com/AnsonHui/DTCoreText.git'
+
+Snapshot
+-------------
+
+![image](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/1.png)
+![image](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/2.png)
+![image](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/3.png)
+![image](https://raw.githubusercontent.com/AnsonHui/DTCoreText/develop/snapshot/4.png)

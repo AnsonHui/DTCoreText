@@ -20,6 +20,8 @@
 	if (self) {
 		_padding = [aDecoder decodeDTEdgeInsetsForKey:@"padding"];
 		_backgroundColor = [aDecoder decodeObjectForKey:@"backgroundColor"];
+		_borderLeftWidth = [aDecoder decodeFloatForKey:@"borderLeftWidth"];
+		_borderLeftColor = [aDecoder decodeObjectForKey:@"borderLeftColor"];
 	}
 	return self;
 }
@@ -27,6 +29,8 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeDTEdgeInsets:_padding forKey:@"padding"];
 	[aCoder encodeObject:_backgroundColor forKey:@"backgroundColor"];
+	[aCoder encodeInteger:_borderLeftWidth forKey:@"borderLeftWidth"];
+	[aCoder encodeObject:_borderLeftColor forKey:@"borderLeftColor"];
 }
 
 - (NSUInteger)hash
@@ -81,5 +85,7 @@
 
 @synthesize padding = _padding;
 @synthesize backgroundColor = _backgroundColor;
+@synthesize borderLeftWidth = _borderLeftWidth;
+@synthesize borderLeftColor = _borderLeftColor;
 
 @end

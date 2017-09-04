@@ -10,6 +10,7 @@
 #import "DemoTextViewController.h"
 #import "DemoAboutViewController.h"
 #import "AutoLayoutDemoViewController.h"
+#import "DemoHTMLCSSTextViewController.h"
 
 // identifier for cell reuse
 NSString * const AttributedTextCellReuseIdentifier = @"AttributedTextCellReuseIdentifier";
@@ -181,11 +182,21 @@ NSString * const AttributedTextCellReuseIdentifier = @"AttributedTextCellReuseId
         [self.navigationController pushViewController:viewController animated:YES];
     }
     else {
-        DemoTextViewController *viewController = [[DemoTextViewController alloc] init];
-        viewController.fileName = [rowSnippet objectForKey:@"File"];
-        viewController.baseURL = [NSURL URLWithString:[rowSnippet  objectForKey:@"BaseURL"]];
 
-        [self.navigationController pushViewController:viewController animated:YES];
+		if (indexPath.row == 1) {
+
+			DemoHTMLCSSTextViewController *viewController = [[DemoHTMLCSSTextViewController alloc] init];
+			viewController.fileName = [rowSnippet objectForKey:@"File"];
+			[self.navigationController pushViewController:viewController animated:YES];
+
+		} else {
+
+			DemoTextViewController *viewController = [[DemoTextViewController alloc] init];
+			viewController.fileName = [rowSnippet objectForKey:@"File"];
+			viewController.baseURL = [NSURL URLWithString:[rowSnippet  objectForKey:@"BaseURL"]];
+
+			[self.navigationController pushViewController:viewController animated:YES];
+		}
     }
 }
 

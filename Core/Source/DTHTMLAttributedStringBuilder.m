@@ -15,7 +15,7 @@
 #import "DTTextHTMLElement.h"
 #import "DTBreakHTMLElement.h"
 #import "DTStylesheetHTMLElement.h"
-#import "DTCSSStyleSheet.h"
+#import "DTCSSStylesheet.h"
 #import "DTCoreTextFontDescriptor.h"
 #import "DTHTMLParserTextNode.h"
 
@@ -66,7 +66,7 @@
 	dispatch_group_t _stringAssemblyGroup;
 	dispatch_queue_t _dataParsingQueue;
 	dispatch_group_t _dataParsingGroup;
-	dispatch_queue_t _treeBuildingQueue;;
+	dispatch_queue_t _treeBuildingQueue;
 	dispatch_group_t _treeBuildingGroup;
 	
 	// lookup table for blocks that deal with begin and end tags
@@ -391,9 +391,11 @@
 	
 	void (^blockquoteBlock)(void) = ^
 	{
-		_currentTag.paragraphStyle.headIndent += (CGFloat)25.0 * _textScale;
+		_currentTag.paragraphStyle.headIndent += (CGFloat)10.0 * _textScale;
 		_currentTag.paragraphStyle.firstLineHeadIndent = _currentTag.paragraphStyle.headIndent;
 		_currentTag.paragraphStyle.paragraphSpacing = _defaultFontDescriptor.pointSize;
+#pragma mark - add by fantasy 用于触发绘制背景色，实际并不会进行绘制
+		_currentTag.backgroundColor = [UIColor clearColor];
 	};
 	
 	[_tagStartHandlers setObject:[blockquoteBlock copy] forKey:@"blockquote"];
@@ -589,7 +591,15 @@
 	
 	void (^pBlock)(void) = ^
 	{
-		_currentTag.paragraphStyle.firstLineHeadIndent = _currentTag.paragraphStyle.headIndent + _defaultParagraphStyle.firstLineHeadIndent;
+		// if have the custom headIndent
+		if (_defaultParagraphStyle.firstLineHeadIndent > 0)
+		{
+			_currentTag.paragraphStyle.firstLineHeadIndent = _currentTag.paragraphStyle.headIndent + _defaultParagraphStyle.firstLineHeadIndent;
+		}
+		else
+		{
+			_currentTag.paragraphStyle.firstLineHeadIndent = _currentTag.paragraphStyle.headIndent + _currentTag.pTextIndent;
+		}
 	};
 	
 	[_tagStartHandlers setObject:[pBlock copy] forKey:@"p"];

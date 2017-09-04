@@ -1,0 +1,215 @@
+<style>
+	
+h1
+{
+	padding: 5px 0 5px 0px;
+}
+
+h2
+{
+	padding: 5px 0 5px 0px;
+}
+
+h3
+{
+	padding: 5px 0 5px 0px;
+}
+
+h4
+{
+	padding: 5px 0 5px 0px;
+}
+
+h5
+{
+	padding: 5px 0 5px 0px;
+}
+
+h6
+{
+	padding: 5px 0 5px 0px;
+}
+
+</style>
+
+<blockquote>
+    <p>在使用MarkLite之前妳需要先了解壹下關於markdown的基本語法，如果妳已經掌握了，請無視本文檔，如果還沒有，那現在開始學習吧。</p>
+</blockquote>
+
+<h3>1.標題</h3>
+
+<ul>
+    <li>  使用 <code>#</code> 表示標題，壹級標題使用壹個 <code>#</code> ，二級標題使用兩個 <code>##</code> ，以此類推，共有六級標題。</li>
+    <li><p>使用 <code>=====</code> 表示高階標題，使用 <code>---------</code> 表示次階標題。</p></li>
+</ul>
+
+<ol>
+    <li> <code>#</code> 和標題之間最好加壹個空格。不要問我為什麽，貌似有時候不會被識別為標題？已經忘記自己為什麽要加空格了，也許是任性。</li>
+    <li> <code>====</code> 和 <code>----</code> 表示標題時，大於等於2個都可以表示。</li>
+    <li> 我通常在標題分級時使用標題標記，這個的用處很明了了。</li>
+</ol>
+
+<h4>示例1</h4>
+
+<pre><code># 這是壹級標題
+    ## 這是二級標題
+    ### 這是三級標題
+    ###### 這是六級標題</code></pre>
+
+<h1>這是壹級標題</h1>
+
+<h2 id="toc_3">這是二級標題</h2>
+
+<h3 id="toc_4">這是三級標題</h3>
+
+<h4 id="toc_5">示例2</h4>
+
+<pre><code class="none">這是壹級標題
+    ========
+    
+    這是二級標題
+    --------------</code></pre>
+
+<h1 id="toc_6">這是壹級標題</h1>
+
+<h2 id="toc_7">這是二級標題</h2>
+
+<h3 id="toc_8">2.引用</h3>
+
+<p>使用 <code>&gt;</code> 表示引用， <code>&gt;&gt;</code> 表示引用裏面再套壹層引用，依次類推。</p>
+
+<ol>
+    <li> 如果 <code>&gt;</code> 和 <code>&gt;&gt;</code> 嵌套使用的話，從 <code>&gt;&gt;</code> 退到 <code>&gt;</code> 時，必須之間要加壹個空格或者 <code>&gt;</code> 作為過渡，否則默認為下壹行和上壹行是同壹級別的引用。如示例所示。</li>
+    <li> 引用標記裏可以使用其他標記，如：有序列表或無序列表標記，代碼標記等。
+        #### 示例
+        &ldquo;`
+        &gt; 這是壹級引用
+        &gt;&gt;這是二級引用
+        &gt;&gt;&gt; 這是三級引用</li>
+</ol>
+
+<blockquote>
+    <p>這是壹級引用</p>
+</blockquote>
+
+<h3>1.3 代碼塊</h3>
+
+<p>使用 3个`表示代碼塊。</p>
+
+<ol>
+    <li> <code>這個符號是在</code>Esc` 鍵下面，切換到英文下即可。</li>
+    <li> 本文檔所有使用講解Markdown語法標記示例的地方都是使用代碼塊標記的。</li>
+</ol>
+
+<pre><code class="javascript">
+var canvas = document.getElementById(&quot;canvas&quot;);
+    
+var context = canvas.getContext(&quot;2d&quot;);
+</code></pre>
+
+<h3 id="toc_10">1.4 行內代碼</h3>
+
+<p>使用``表示行內代碼。本頁部分文字中間的英文字母就是使用行內代碼標記標記的。</p>
+
+<p>示例</p>
+
+<pre><code class="none">這是`javascript`代碼</code></pre>
+
+<p>這是 <code>javascript</code> 代碼</p>
+
+<h4 id="toc_11">1.5 鏈接</h4>
+
+<p>使用 <code>[](link)</code> 表示行內鏈接。其中：</p>
+
+<ul>
+    <li>  <code>[]</code> 內的內容為要添加鏈接的文字。</li>
+    <li>  <code>link</code> 為鏈接地址。</li>
+</ul>
+
+<p>示例</p>
+
+<p>我覺得<a href="https://appsto.re/cn/jK8Cbb.i">MarkLite</a>真是個牛逼的編輯器😊.</p>
+
+<h3 id="toc_12">1.6 導入圖片</h3>
+
+<p>使用 <code>![Alt text](/path/to/img.jpg)</code> 導入圖片。其中：</p>
+
+<ul>
+    <li>  <code>Alt text</code> 為如果圖片無法顯示時顯示的文字；</li>
+    <li>  <code>/path/to/img.jpg</code> 為圖片所在路徑；
+        點擊輔助鍵盤中的添加圖片按鈕，**MarkLite**會自動幫妳幫妳把圖片上傳到圖片存儲服務器，並補齊鏈接，讓妳壹步到位，是不是很方便😊</li>
+</ul>
+
+<p>示例</p>
+
+<pre><code class="none">![MarkLite](http://i1.piimg.com/567954/ea65f02e0cd670a4.jpg)</code></pre>
+
+<p><img src="http://i1.piimg.com/567954/ea65f02e0cd670a4.jpg" width=800px height=800px alt="MarkLite"></p>
+    
+    <h4 id="toc_13">1.7 粗體和斜體</h4>
+    
+    <ol>
+        <li>使用 <code>**</code> 或者 <code>__</code> 表示粗體。</li>
+        <li>使用 <code>*</code> 或者 <code>_</code> 表示斜體。</li>
+        <li>前後的 <code>*</code> 或 <code>_</code> 與要 <strong>加粗或傾斜</strong> 的字體之間不能有空格。</li>
+    </ol>
+    
+    <p>示例</p>
+    
+    <pre><code class="none"> **粗體1**    __粗體2__
+        *斜體1*    _斜體2_</code></pre>
+    
+    <p>粗體1 <strong>粗體2</strong></p>
+    
+    <p><u>斜體1</u> <u>斜體2</u></p>
+    
+    <h4 id="toc_14">1.8 列表</h4>
+    
+    <p>使用 <code>1\. 2\. 3.</code> 表示有序列表，使用 <code>*</code> 或 <code>-</code> 或 <code>+</code> 表示無序列表。</p>
+    
+    <ol>
+        <li> 無序列表或有序列表標記和後面的文字之間要有壹個空格隔開。</li>
+        <li> 有序列表標記不是按照妳寫的數字進行顯示的，而是根據當前有序列表標記所在位置顯示的，如示例1所示。</li>
+        <li> 無序列表的項目符號是按照實心圓、空心圓、實心方格的層級關系遞進的，如例2所示。通常情況下，同壹層級使用同壹種標記表示，便於自己查看和管理。</li>
+        <li> 無序列表和有序列表標記的使用場景也很明了，故不多說。</li>
+    </ol>
+    
+    <p>示例</p>
+    
+    <h4 id="toc_15">例1：有序列表</h4>
+    
+    <pre><code class="none">1\. 第壹點
+        2\. 第二點
+        4\. 第三點</code></pre>
+    
+    <ol>
+        <li> 第壹點</li>
+        <li> 第二點</li>
+        <li> 第三點</li>
+    </ol>
+    
+    <h4 id="toc_16">例2：無序列表</h4>
+    
+    <pre><code class="none">+ 呵呵
+        * 嘉嘉
+        - 嘻嘻
+        - 吼吼
+        - 嘎嘎
+        + 桀桀
+        * 哈哈</code></pre>
+    
+    <ul>
+        <li>  呵呵
+            
+            <ul>
+                <li>  嘉嘉</li>
+                <li>  嘻嘻</li>
+                <li>  吼吼
+                    
+                    <ul>
+                        <li>  嘎嘎</li>
+                        <li>  桀桀</li>
+                    </ul></li>
+            </ul></li>
+        <li>  哈哈</li>
+    </ul>

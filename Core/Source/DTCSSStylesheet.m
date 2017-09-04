@@ -99,7 +99,7 @@ extern unsigned int default_css_len;
 	// list-style shorthand
 	NSString *shortHand = [[styles objectForKey:@"list-style"] lowercaseString];
 	
-	if (shortHand)
+	if (shortHand && [shortHand isKindOfClass:[NSString class]])
 	{
 		[styles removeObjectForKey:@"list-style"];
 		
@@ -166,7 +166,7 @@ extern unsigned int default_css_len;
 	// font shorthand, see http://www.w3.org/TR/CSS21/fonts.html#font-shorthand
 	shortHand = [styles objectForKey:@"font"];
 	
-	if (shortHand)
+	if (shortHand && [shortHand isKindOfClass:[NSString class]])
 	{
 		NSString *fontStyle = @"normal";
 		NSArray *validFontStyles = [NSArray arrayWithObjects:@"italic", @"oblique", nil];
@@ -277,7 +277,7 @@ extern unsigned int default_css_len;
 	
 	shortHand = [styles objectForKey:@"margin"];
 	
-	if (shortHand)
+	if (shortHand && [shortHand isKindOfClass:[NSString class]])
 	{
 		NSArray *parts = [shortHand componentsSeparatedByString:@" "];
 		
@@ -345,7 +345,7 @@ extern unsigned int default_css_len;
 	
 	shortHand = [styles objectForKey:@"padding"];
 	
-	if (shortHand)
+	if (shortHand && [shortHand isKindOfClass:[NSString class]])
 	{
 		NSArray *parts = [shortHand componentsSeparatedByString:@" "];
 		
@@ -413,7 +413,7 @@ extern unsigned int default_css_len;
 
 	shortHand = [styles objectForKey:@"background"];
 
-	if (shortHand)
+	if (shortHand && [shortHand isKindOfClass:[NSString class]])
 	{
 		// ignore most tokens except background-color
 		
@@ -434,6 +434,31 @@ extern unsigned int default_css_len;
 			[scanner scanUpToCharactersFromSet:tokenDelimiters intoString:NULL];
 		}
 	}
+
+#pragma mark - add by fantasy 转换border-left-color
+
+	shortHand = [styles objectForKey:@"border-left-color"];
+
+	if (shortHand) {
+
+		[styles removeObjectForKey:@"border-left-color"];
+
+		NSCharacterSet *tokenDelimiters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+		NSString *trimmedString = [shortHand stringByTrimmingCharactersInSet:tokenDelimiters];
+		NSScanner *scanner = [NSScanner scannerWithString:trimmedString];
+
+		while (![scanner isAtEnd])
+		{
+			NSString *colorName;
+			if ([scanner scanHTMLColor:NULL HTMLName:&colorName])
+			{
+				[styles setObject:colorName forKey:@"border-left-color"];
+				break;
+			}
+			[scanner scanUpToCharactersFromSet:tokenDelimiters intoString:NULL];
+		}
+	}
+
 }
 
 - (void)_addStyleRule:(NSString *)rule withSelector:(NSString*)selectors

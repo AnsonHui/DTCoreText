@@ -1130,7 +1130,7 @@ static BOOL _DTCoreTextLayoutFramesShouldDrawDebugFrames = NO;
 			CGContextSetFillColorWithColor(context, [textBlock.borderLeftColor CGColor]);
 			CGContextFillRect(context, CGRectMake(frame.origin.x + textBlock.padding.left,
 												  frame.origin.y + textBlock.padding.top,
-												  textBlock.borderLeftWidth, frame.size.height));
+												  textBlock.borderLeftWidth, frame.size.height - textBlock.padding.top - textBlock.padding.bottom));
 
 		} else {
 

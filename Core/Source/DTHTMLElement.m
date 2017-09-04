@@ -1419,6 +1419,12 @@ NSDictionary *_classesForNames = nil;
 				} else {
 					newBlock.borderLeftWidth = 0;
 				}
+
+				// 解释上一次的padding
+				[self _parseEdgeInsetsFromStyleDictionary:_sLastStyles
+								  forAttributesWithPrefix:@"padding"
+										 writingDirection:self.paragraphStyle.baseWritingDirection
+										   intoEdgeInsets:&_padding];
 			}
 
 			newBlock.padding = _padding;
